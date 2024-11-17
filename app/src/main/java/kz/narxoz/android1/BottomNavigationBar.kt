@@ -14,7 +14,6 @@ fun BottomNavigationBar(navController: NavController) {
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route
 
-    // Здесь используем BottomNavigation
     NavigationBar  {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Books") },

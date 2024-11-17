@@ -55,12 +55,15 @@ android {
 }
 
 dependencies {
-    // Jetpack Compose Dependencies
-    implementation("androidx.compose.ui:ui:1.4.3") // Core UI
-    implementation("androidx.compose.material3:material3:1.0.1") // Material3
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3") // UI Tooling
-    implementation("androidx.navigation:navigation-compose:2.5.3") // Navigation for Compose
-    implementation("androidx.compose.foundation:foundation:1.4.3") // Foundation components
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.material3:material3-android:1.2.0-rc01")
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.room:room-runtime:2.5.0")
+    apply(plugin = "org.jetbrains.kotlin.kapt")
+    implementation("androidx.room:room-ktx:2.5.0")
 
     // Additional AndroidX Dependencies
     implementation(libs.androidx.core.ktx) // Core KTX

@@ -30,24 +30,22 @@ fun ListItemCard(item: ItemData, onClick: () -> Unit) {
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(16.dp)
         ) {
-            // Изображение книги слева
             item.image?.let {
                 Image(
                     painter = painterResource(id = it),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(100.dp) // Устанавливаем фиксированный размер для изображения
+                        .size(100.dp)
                         .clip(RoundedCornerShape(8.dp))
                 )
-                Spacer(modifier = Modifier.width(8.dp)) // Промежуток между изображением и текстом
+                Spacer(modifier = Modifier.width(8.dp))
             }
 
-            // Текстовая информация о книге справа
             Column(
                 modifier = Modifier
-                    .weight(1f) // Заставляем текст занимать оставшееся пространство
-                    .padding(start = 8.dp) // Промежуток между изображением и текстом
+                    .weight(1f)
+                    .padding(start = 8.dp)
             ) {
                 Text(
                     text = item.title,

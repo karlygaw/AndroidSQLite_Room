@@ -3,10 +3,15 @@ package kz.narxoz.android1
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
 
 @Composable
 fun FavoriteBooksList(navController: NavController, modifier: Modifier = Modifier) {
@@ -48,18 +53,30 @@ fun FavoriteBooksList(navController: NavController, modifier: Modifier = Modifie
         )
     )
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        items(itemList) { item ->
-            ListItemCard(item) {
-                navController.navigate("detail/${item.title}/${item.description}/${item.date}/${item.image ?: 0}/${item.reviews.joinToString("|")}") {
-                    launchSingleTop = true
+    val (isLoading, setIsLoading) = remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        setIsLoading(false)
+    }
+
+    // Show loading overlay only if isLoading is true
+    Box(modifier = modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            items(itemList) { item ->
+                ListItemCard(item) {
+                    navController.navigate("detail/${item.title}/${item.description}/${item.date}/${item.image ?: 0}/${item.reviews.joinToString("|")}") {
+                        launchSingleTop = true
+                    }
                 }
             }
         }
+
+        // Show overlay
+        LoadingOverlay(isLoading = isLoading)
     }
 }
-

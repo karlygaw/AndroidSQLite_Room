@@ -9,6 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
+import androidx.compose.animation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import com.airbnb.lottie.compose.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 
 @Composable
 fun DetailScreen(
@@ -104,10 +118,32 @@ fun DetailScreen(
             }
         }
     }
-}
 
+    val (isLoading, setIsLoading) = remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        setIsLoading(false)
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (!isLoading) {
+            // Main content of the DetailScreen
+            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                // Your existing detail screen layout
+            }
+        }
+
+        // Loading overlay
+        LoadingOverlay(isLoading = isLoading)
+    }
+}
 @Composable
 fun ReviewItem(review: String) {
+    // State to control animation visibility
+    var isLiked by remember { mutableStateOf(false) }
+    var showFireworks by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,23 +151,62 @@ fun ReviewItem(review: String) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Text(
-            text = review,
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium
-        )
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = review,
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Box(modifier = Modifier.size(70.dp)) {  // Size of the Box for layout purposes
+                // Like icon (smaller)
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = "Like",
+                    modifier = Modifier
+                        .size(30.dp) // Decreased size of the like icon
+                        .align(Alignment.Center)
+                        .clickable {
+                            isLiked = !isLiked
+                            showFireworks = true // Trigger fireworks animation
+                        },
+                    tint = if (isLiked) Color.Red else Color.Gray // Change color when liked
+                )
+
+                // Fireworks animation (overlayed on top of the like icon)
+                if (showFireworks) {
+                    FireworksAnimation { showFireworks = false }
+                }
+            }
+        }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DetailScreenPreview() {
-    DetailScreen(
-        navController = rememberNavController(), // Добавьте это для предварительного просмотра
-        title = "John Doe - SQL Tutor",
-        description = "Expert in SQL with over 5 years of teaching experience.",
-        date = "Available: Mon - Fri",
-        image = null, // Замените на ID ресурса изображения, если доступно
-        reviews = listOf("Great tutor!", "Helped me a lot.", "Highly recommend.")
+fun FireworksAnimation(onAnimationEnd: () -> Unit) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("like.json"))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = 1 // Play the animation once
+    )
+
+    // Use LaunchedEffect to trigger the end of animation
+    LaunchedEffect(progress) {
+        if (progress == 1f) { // Check if animation has finished
+            onAnimationEnd() // Call when animation ends
+        }
+    }
+
+    // Increase only the size of the fireworks animation
+    LottieAnimation(
+        composition = composition,
+        progress = { progress },
+        modifier = Modifier.size(300.dp) // Increased size of the fireworks animation
     )
 }

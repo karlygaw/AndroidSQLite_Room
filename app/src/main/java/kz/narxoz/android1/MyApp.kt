@@ -17,7 +17,7 @@ fun MyApp(onRouteChange: (String) -> Unit) {
     val navController = rememberNavController()
 
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) } // Помещаем нижнюю панель навигации
+        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Box(modifier = Modifier
             .fillMaxSize()

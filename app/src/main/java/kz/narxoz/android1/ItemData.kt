@@ -5,6 +5,6 @@ data class ItemData(
     val description: String,
     val date: String,
     val image: Int? = null,
-    val reviews: List<String> = emptyList() // Add reviews in Russian here
+    val reviews: List<String> = emptyList()
 )
 

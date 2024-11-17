@@ -3,15 +3,14 @@ package kz.narxoz.android1
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
-
+import kotlinx.coroutines.delay
 
 @Composable
 fun ProblemsScreen() {
-    // Sample data for problems
     val problemsList = listOf(
         "У меня проблема в корзиной.",
         "Кто нибудь знает хорошие книги на подарок?",
@@ -19,17 +18,34 @@ fun ProblemsScreen() {
         "Продам старые книги."
     )
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Обсуждение и вопросы", style = MaterialTheme.typography.titleLarge)
+    // Define the loading state
+    var isLoading by remember { mutableStateOf(true) }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    // Simulate a delay to show the loading animation
+    LaunchedEffect(Unit) {
+        delay(1500) // 3-second delay for loading simulation
+        isLoading = false // Set loading to false after delay
+    }
 
-        // Display the list of problems
-        LazyColumn {
-            items(problemsList) { problem ->
-                ProblemItem(problem)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Text(text = "Обсуждение и вопросы", style = MaterialTheme.typography.titleLarge)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LazyColumn {
+                items(problemsList) { problem ->
+                    ProblemItem(problem)
+                }
             }
         }
+
+        // Display the loading overlay if isLoading is true
+        LoadingOverlay(isLoading = isLoading)
     }
 }
 

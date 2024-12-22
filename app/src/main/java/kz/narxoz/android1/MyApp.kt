@@ -39,7 +39,7 @@ fun MyApp(onRouteChange: (String) -> Unit) {
                     )
                 }
                 composable("problems") {
-                    ProblemsScreen()
+                    ReadingNowList()
                 }
                 composable("account") {
                     MyAccountScreen()

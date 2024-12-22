@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -64,11 +65,17 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.0")
     apply(plugin = "org.jetbrains.kotlin.kapt")
     implementation("androidx.room:room-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.compose.material:material-icons-extended:1.5.1")
+    kapt("androidx.room:room-ktx:2.5.0")
 
     // Additional AndroidX Dependencies
     implementation(libs.androidx.core.ktx) // Core KTX
     implementation(libs.androidx.lifecycle.runtime.ktx) // Lifecycle KTX
     implementation(libs.androidx.activity.compose) // Activity Compose
+
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     // UI Testing and Debugging Dependencies
     androidTestImplementation(platform(libs.androidx.compose.bom)) // BOM for Compose testing

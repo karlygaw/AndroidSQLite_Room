@@ -17,11 +17,9 @@ import kotlinx.coroutines.delay
 import android.content.IntentFilter
 import androidx.compose.foundation.background
 import androidx.compose.ui.graphics.Color
+
 @Composable
 fun MyAccountScreen() {
-    // State to hold battery percentage
-    var batteryPercentage by remember { mutableStateOf(0) }
-
     // Box to layout components
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -41,15 +39,6 @@ fun MyAccountScreen() {
             Text(
                 text = "Ussen Qarlygash",
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Show battery percentage
-            Text(
-                text = "Battery: $batteryPercentage%",
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 18.sp),
-                modifier = Modifier.padding(top = 8.dp)
             )
         }
     }

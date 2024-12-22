@@ -6,8 +6,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ThumbUp
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -28,8 +31,8 @@ fun BottomNavigationBar(navController: NavController) {
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Search, contentDescription = "Problems") },
-            label = { Text("Вопросы") },
+            icon = { Icon(Icons.Filled.List, contentDescription = "Problems") },
+            label = { Text("Читаю сейчас") },
             selected = currentRoute == "problems",
             onClick = {
                 navController.navigate("problems") {
